@@ -1,0 +1,66 @@
+[
+    {
+        "password": "12345678",
+        "email": "donald_johnson@gmail.com",
+        "phone": "980-234-1343",
+        "fname": "Donald",
+        "lname": "Johnson"
+    },
+    {
+        "password": "12345678",
+        "email": "Vernice@gmail.com",
+        "phone": "980-257-5643",
+        "fname": "Vernice",
+        "lname": "Edwards"
+    },
+    {
+        "password": "12345678",
+        "email": "Jane@gmail.com",
+        "phone": "980-258-5343",
+        "fname": "Jane",
+        "lname": "Roberson"
+    },
+    {
+        "password": "12345678",
+        "email": "andrew@gmail.com",
+        "phone": "980-111-5343",
+        "fname": "Andrew",
+        "lname": "McDowell"
+    },
+    {
+        "password": "12345678",
+        "email": "Iona@gmail.com",
+        "phone": "980-121-5343",
+        "fname": "Iona",
+        "lname": "Love"
+    },
+    {
+        "password": "12345678",
+        "email": "Mark@gmail.com",
+        "phone": "980-348-5343",
+        "fname": "Mark",
+        "lname": "Gardner"
+    },
+    {
+        "password": "12345678",
+        "email": "Mark@gmail.com",
+        "phone": "980-348-5343",
+        "fname": "Mark",
+        "lname": "Gardner"
+    },
+    {
+        "password": "12345678",
+        "email": "Tom@gmail.com",
+        "phone": "980-348-5097",
+        "fname": "Tom",
+        "lname": "Rice"
+    },
+    {
+        "password": "12345678",
+        "email": "tester@gmail.com",
+        "phone": "980-348-5297",
+        "fname": "Mary",
+        "lname": "King"
+    }
+
+]

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Restaurant Guide Sign Up{% endblock %}
+
+{% block body %}
+
+  <p>Sign Up</p>
+  <p>Already have an account?<a href="/sign_in" id="red-signin">Sign In</a></p>
+
+  <div class="outer-box">
+    <div class="inner-box">
+      <form action="/sign_up" method="POST">
+        <div>
+          <div>
+            <label for="fname-signup">First Name</label>
+            <input type="text" name="fname" id="fname-signup">
+          </div>
+      
+          <div>
+            <label for="lname-signup">Last Name</label>
+            <input type="text" name="lname" id="lname-signup">
+          </div>
+        </div>
+
+        <div>
+          <label for="email-signup">Email</label><br>
+          <input type="text" name="email" id="email-signup">
+        </div>
+        
+        <div>
+          <label for="phone-signup">Mobile Number</label><br>
+          <input type="text" name="phone" id="phone-signup">
+        </div>
+        
+        <div>
+          <label for="password-login">Password</label>
+          <span class="gray">&nbsp at least 8 characters</span><br>
+          <input type="text" name="password" id="password-login">
+        </div>
+          
+        <button class="red-button" type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  {% for msg in get_flashed_messages() %}
+  <p class="flash-msg">
+    {{ msg }}
+  </p>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Search Restaurant Online | Restaurant Review App | Restaurant Guide{% endblock %}
+
+{% block body %}
+
+  <!-- <div>
+    Restaurant Guide
+    <a href="/sign_in" id="signin">Sign In</a>
+    <a href="/sign_up" id="signup">Sign Up</a>
+  </div> -->
+
+  <div>Find it, try it and review it</div>
+
+  
+
+  <form id="home-where-to">
+    <p>
+      <input type="text" name="location" placeholder="Where to?">
+    </p>
+
+    <p>
+      <input type="submit", value="Find Food">
+    </p>
+  </form>
+
+  <a href="/sign_in">Sign in to see more..</a>
+
+  <div id="listing-grids">       
+  </div> 
+
+{% endblock %}
+
+{% block after_body%}
+<script src="/static/js/showAllRests.js"></script>
+{% endblock %}

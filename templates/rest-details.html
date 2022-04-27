@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Restaurant Details | Restaurant Guide{% endblock %}
+
+{% block body %}
+        <div class="header">
+            <div class="logo" class="header-option">Restaurant<span id="greenGuide">Guide</span> </div>
+            <div id="rest-city"></div>
+        </div>
+
+    <div id="rest-info">
+        <div>
+            <div>Restaurants in {{rest.location.city}}</div>
+            <img class="detai-image" src={{rest.image_url}}>
+            <div class="detail-name">{{rest.name}}</div>
+            <div>Phone: {{rest.display_phone}}</div>
+            <div>Address: {{rest.location.display_address[0]}} {{rest.location.display_address[1]}}</div>
+        </div>
+    </div> 
+
+    <div id="map" data-lat={{rest.coordinates.latitude}} data-lng={{rest.coordinates.longitude}}></div>
+
+    <div> 
+        <p>What people are saying</p>
+    </div>
+
+    <div id="rest-reviews">
+        {%if ratings %}
+            {%for rating in ratings%}
+                <div>{{rating.user.fname}}&nbsp;{{rating.user.lname}}</div>
+                <div>{{rating.title}}</div>
+                <div>{{rating.review}}</div>
+            {% endfor %}
+        {% else %}
+                <div>No review yet</div>
+        {%endif%}
+    </div>
+    
+    <a href="/review_page/{{yelp_id}}"><button id="review-button">Leave a review</button>
+    </a>
+
+    <script src="/static/js/showRestDetails.js"></script>
+    <script
+        async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLe2ZMW3YBJ5SZKO3Hor0TJo_r-z_Kf8E&callback=initMap">
+  </script>
+{% endblock %}
+

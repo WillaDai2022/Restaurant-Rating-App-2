@@ -1,0 +1,23 @@
+
+.greenGuide {
+  color:green;
+}
+
+.logo{
+  font-family: sans-serif;
+  font-size: 30px;
+}
+
+#map{
+  height:400px;
+  width:100%
+
+}
+
+.icon{
+  display:inline-block;
+}
+
+
+
+

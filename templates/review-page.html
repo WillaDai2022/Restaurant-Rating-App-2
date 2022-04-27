@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}User Review Edit | Restaurant Guide{% endblock %}
+
+{% block body %}
+    <!-- <div class="header">
+        <div class="logo" class="header-option">Restaurant<span id="greenGuide">Guide</span> </div>
+        <div id="rest-city"></div>
+    </div> -->
+
+    <form action="/review_page/{{yelp_id}}" method="POST">
+        <label for="review-score">Your overall rating of this restaurant</label>
+        <select name="score" id="review-score">
+            {% for num in range(1,6) %}
+              <option value="{{ num }}">{{ num }}</option>
+            {% endfor %}
+        </select>
+
+        <div>
+            <label for="review-title">Title of your review</label><br>
+            <input type="text" name="title" id="review-title">
+        </div>
+       
+        <div>
+            <label for="reviewText">Your review</label>
+            <div>
+                <textarea name="review" id="reviewText" data-minlen="100" data-maxlen="20000" 
+                placeholder="Tell people about your experience"></textarea>
+            </div>
+        </div>
+        
+        <input type="submit" value="Submit Your Review">
+
+    </form>
+   
+    
+    {% for msg in get_flashed_messages() %}
+    <p class="flash-msg">
+        {{ msg }}
+    </p>
+    {% endfor %}
+{% endblock %}
