@@ -56,12 +56,12 @@ def get_reataurants():
 def get_restaurant_by_id(restaurant_id):
     """Take a movie_id as an argument and return the movie with that ID."""
 
-    return Fav_rest.query.get(restaurant_id)
+    return Fav_rest.query.get(restaurant_id).first()
 
 def get_restaurant_by_yelp_id(yelp_id):
     "Take a yelp_id as an argument and return the movie with that ID."
 
-    return Fav_rest.query.filter(Fav_rest.yelp_id==yelp_id)
+    return Fav_rest.query.filter(Fav_rest.yelp_id==yelp_id).first()
 
 
 

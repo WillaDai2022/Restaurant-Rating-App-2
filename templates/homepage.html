@@ -9,6 +9,7 @@
     <a href="/sign_up" id="signup">Sign Up</a>
   </div> -->
 
+
   <div>Find it, try it and review it</div>
 
   
@@ -22,14 +23,30 @@
       <input type="submit", value="Find Food">
     </p>
   </form>
-
+  {% if "user_id" not in session %}
   <a href="/sign_in">Sign in to see more..</a>
+  {%endif%}
 
-  <div id="listing-grids">       
+  <div id="listing-grids-home">  
+
+    {% for rest in restaurants["businesses"] %}
+
+      <div>
+        <div>Restaurants in {{rest["location"]["city"]}}</div>
+        <a href="/rest_details/{{rest['id']}}">
+          <div class="restaurant-box">
+            <img src="{{rest['image_url']}}"/>
+            <div>{{rest["name"]}}</div>
+            <div>$-{{rest.get("price", "$$$$")}}</div>
+          </div>
+        </a>
+
+    {%endfor%}    
   </div> 
-
+  
+  <script src="/static/js/showAllRestsHome.js"></script>
 {% endblock %}
 
 {% block after_body%}
-<script src="/static/js/showAllRests.js"></script>
+
 {% endblock %}

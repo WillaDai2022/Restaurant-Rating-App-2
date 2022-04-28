@@ -3,7 +3,7 @@ from model import connect_to_db, db, User, Rating, Fav_rest
 import crud
 from jinja2 import StrictUndefined
 import requests
-import json,os
+import json,os,re
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -14,7 +14,16 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """View homepage."""
 
-    return render_template("homepage.html")
+    parameters = {
+        "term" : "restaurants",
+        "radius": "5000",
+        "limit": "10",
+        "location": "28226"
+    }
+
+    restaurants = yelp_api_get(None, "businesses/search", parameters).json()
+
+    return render_template("homepage.html", restaurants = restaurants)
 
 @app.route("/sign_in")
 def sign_in():
@@ -42,7 +51,16 @@ def process_login():
         session["fname"] = user.fname
         session["lname"] = user.lname
         flash(f"Welcome back, {user.fname} {user.lname}!")
-        return render_template("all-rests.html")
+        
+        parameters = {
+            "term" : "restaurants",
+            "radius": "5000",
+            "limit": "10",
+            "location": "28226"
+        }
+
+        restaurants = yelp_api_get(None, "businesses/search", parameters).json()
+        return render_template("all-rests.html", restaurants = restaurants)
 
 
 @app.route("/sign_up")
@@ -62,6 +80,8 @@ def process_sign_up():
     lname = request.form.get("lname")
     phone = request.form.get("phone")
 
+    #regex 
+    regex= r"^(\+\w{1,2}\s)?\(?\w{3}\)?[\s.-]\w{3}[\s.-]\w{4}$"
 
     user1 = crud.get_user_by_email(email)
     user2 = crud.get_user_by_phone(phone)
@@ -70,7 +90,7 @@ def process_sign_up():
         flash("An account is already associated with this email. Sign in to get started.")
     elif user2:
         flash("Mobile number already exists. Please try again with another one")
-    elif phone and len(phone) != 10:
+    elif not re.search(regex, phone):
         flash("Phone number is of invalid format")
     elif password and len(password) < 8:
         flash("Password must contain at least 8 characters.")
@@ -158,98 +178,33 @@ def save_user_review(yelp_id):
         db.session.add(rating)
         db.session.commit()
         return redirect(f"/rest_details/{yelp_id}")
+
+@app.route("/user_profile/<user_id>")
+def show_user_profile(user_id):
+    """show user profile"""
+
+
+    user = crud.get_user_by_id(user_id)
+    fav_rests = user.fav_rests
+
+    phone = user.phone
+    email = user.email
+  
+    return render_template("user-profile.html", phone = phone, email = email, fav_rests = fav_rests )
         
+
 @app.route("/sign_out")
 def sign_out():
     """User Sign Out"""
 
-    session.clear
+    session.clear()
+    
     return redirect("/")
 
-    
-    
-
-# Sending data from a form without javascript
-# when user submits form, user's inputs will be sent to the route entered in the action attribute
-# then you can get the data using request.form or request.get
-
-
-## Sending data from a form, using javascript as middle man
-#don't need action attribute
-# you would use a js event listner, listening for submit event from form
-#evt.preventdefault
-# get the values using queryselector, save to a object (dictionary)
-#then make fetch request using that object
-# https://fellowship.hackbrightacademy.com/materials/serft11/lectures/ajax/#post-requests-frontend
-
-
-#    
-
-
-
-# @app.route("/")
-# def show_all_movies():
-#     """View all movies"""
-
-#     movies = crud.get_movies()
-
-#     return render_template("all_movies.html", movies = movies)
-
-
-# @app.route("/movies/<movie_id>")
-# def show_movie(movie_id):
-#     """Show details on a particular movie."""
-
-#     movie = crud.get_movie_by_id(movie_id)
-
-#     return render_template("movie_details.html", movie=movie)
-
-
-# @app.route("/users")
-# def show_all_users():
-#     """View all users"""
-
-#     users = crud.get_users()
-
-#     return render_template("all_users.html", users=users)
-
-
-# @app.route("/users/<user_id>")
-# def show_user(user_id):
-#     """Show user details"""
-    
-#     user = crud.get_user_by_id(user_id)
-
-#     return render_template("user_details.html", user = user)
-
-
-
-
-# @app.route("/movies/<movie_id>/ratings", methods=["POST"])
-# def create_rating(movie_id):
-#     """Create a new rating for the movie."""
-
-#     logged_in_email = session.get("user_email")
-#     print(logged_in_email)
-#     rating_score = request.form.get("rating")
-
-#     if logged_in_email is None:
-#         flash("You must log in to rate a movie.")
-#     elif not rating_score:
-#         flash("Error: you didn't select a score for your rating.")
-#     else:
-#         user = crud.get_user_by_email(logged_in_email)
-#         movie = crud.get_movie_by_id(movie_id)
-
-#         rating = crud.create_rating(user, movie, int(rating_score))
-#         db.session.add(rating)
-#         db.session.commit()
-
-#         flash(f"You rated this movie {rating_score} out of 5.")
-
-#     return redirect(f"/movies/{movie_id}")
 
 def yelp_api_get(yelp_id, end_point, parameters):
+    """Get restaurat(s) info frm Yelp API"""
+
     url = f"https://api.yelp.com/v3/{end_point}"
     yelp_key = os.environ.get("YELP_KEY")
     HEADERS = {"Authorization": "Bearer %s" % yelp_key}

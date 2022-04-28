@@ -18,9 +18,21 @@
         {% endfor %}
         
 
-    <div id="listing-grids">
+    <div id="listing-grids-login">
+        {% for rest in restaurants["businesses"] %}
+
+        <div>
+          <div>Restaurants in {{rest["location"]["city"]}}</div>
+          <a href="/rest_details/{{rest['id']}}">
+            <div class="restaurant-box">
+              <img src="{{rest['image_url']}}"/>
+              <div>{{rest["name"]}}</div>
+              <div>$-{{rest.get("price", "$$$$")}}</div>
+            </div>
+          </a>
+  
+      {%endfor%}    
     </div> 
 
-    <script src="/static/js/showAllRests.js"></script>
 {% endblock %}
 
