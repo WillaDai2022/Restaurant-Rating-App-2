@@ -4,26 +4,31 @@ import crud
 from jinja2 import StrictUndefined
 import requests
 import json,os,re
+import cloudinary.uploader
+import psycopg2
 
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
+CLOUDINARY_KEY = os.environ["CLOUDINARY_KEY"]
+CLOUDINARY_SECRET = os.environ["CLOUDINARY_SECRET"]
+CLOUD_NAME = "djyfl2zja"
 
 @app.route("/")
 def homepage():
     """View homepage."""
 
-    parameters = {
-        "term" : "restaurants",
-        "radius": "5000",
-        "limit": "10",
-        "location": "28226"
-    }
+    # parameters = {
+    #     "term" : "restaurants",
+    #     "radius": "5000",
+    #     "limit": "10",
+    #     "location": "28226"
+    # }
 
-    restaurants = yelp_api_get(None, "businesses/search", parameters).json()
+    # restaurants = yelp_api_get(None, "businesses/search", parameters).json()
 
-    return render_template("homepage.html", restaurants = restaurants)
+    return render_template("homepage.html")
 
 @app.route("/sign_in")
 def sign_in():
@@ -109,6 +114,8 @@ def get_rests_info():
 
     location = request.args.get("location")
 
+    print(location)
+
     if not location:
         location = "28226"
 
@@ -185,13 +192,51 @@ def show_user_profile(user_id):
 
 
     user = crud.get_user_by_id(user_id)
-    fav_rests = user.fav_rests
-
+   
     phone = user.phone
     email = user.email
   
-    return render_template("user-profile.html", phone = phone, email = email, fav_rests = fav_rests )
-        
+    return render_template("user-profile.html", phone = phone, email = email, user_id = user_id)
+
+@app.route("/user_fav_rests/<user_id>")
+def show_user_fav_rest(user_id):
+    """Show the restaurants favorited by one user"""
+
+    user = crud.get_user_by_id(user_id)
+    fav_rests = user.fav_rests
+
+    rests = []
+
+    # for rest in fav_rests:
+
+
+    return render_template("user-fav-rests.html", fav_rests = fav_rests)
+
+@app.route("/user_photo_upload/<user_id>", methods=["POST"])
+def upload_user_photo(user_id):
+    """Process image uploaded by the user"""
+
+    my_file = request.files['my-file']
+
+    result = cloudinary.uploader.upload(my_file,
+                                        api_key=CLOUDINARY_KEY,
+                                        api_secret=CLOUDINARY_SECRET,
+                                        cloud_name=CLOUD_NAME)
+
+    img_url = result['secure_url']
+    
+    user = crud.get_user_by_id(user_id)
+
+    conn = psycopg2.connect(
+        database = "restaurant_guide", user="postgres", password="secret", host = "127.0.0.1"
+    )
+
+    #Setting aut
+    conn.autocommit = True
+
+
+
+
 
 @app.route("/sign_out")
 def sign_out():
@@ -213,6 +258,13 @@ def yelp_api_get(yelp_id, end_point, parameters):
         return requests.get(f"{url}/{yelp_id}", headers=HEADERS)
     else:
         return requests.get(url, params=parameters, headers=HEADERS)
+
+def save_url_to_user(user_id, url):
+    """Save the url of the phtots uploaded by the user to the database"""
+
+    user = crud.get_user_by_id(user_id)
+
+
 
 
 if __name__ == "__main__":

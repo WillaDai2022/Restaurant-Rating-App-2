@@ -35,12 +35,22 @@
         {%endif%}
     </div>
     
-    <a href="/review_page/{{yelp_id}}"><button id="review-button">Leave a review</button>
-    </a>
+    {% if "user_id" in session%}
+        <a href="/review_page/{{yelp_id}}" class="btn btn-default btn-block">Leave a review</a>
+    {%else%}
+        <a href="#"><button id="no-review-button">Leave a review</button>
+        </a>
+        <script>
+            document.querySelector('#no-review-button').addEventListener('click', ()=>{
+                alert("Please login to leave a review");
+            });
+        </script>
+    {% endif %}
 
+    <!--Js files-->
+    <script src="/static/js/showRestMap.js"></script>
     <script
-        async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLe2ZMW3YBJ5SZKO3Hor0TJo_r-z_Kf8E&callback=initMap">
-  </script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLe2ZMW3YBJ5SZKO3Hor0TJo_r-z_Kf8E&callback=initMap" async defer>
+</script>
 {% endblock %}
 

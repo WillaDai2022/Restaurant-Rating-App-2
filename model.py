@@ -16,6 +16,7 @@ class User(db.Model):
     phone = db.Column(db.String(20), nullable=False)
     fname = db.Column(db.String(50), nullable=False)
     lname = db.Column(db.String(50), nullable=False)
+    photo = db.Column(db.String)
 
     ratings = db.relationship("Rating", back_populates="user")
     fav_rests = db.relationship("Fav_rest", secondary="rest_genre", back_populates="users")

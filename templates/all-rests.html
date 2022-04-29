@@ -2,37 +2,15 @@
 {% block title %}All Restaurants | Restaurant Guide{% endblock %}
 
 {% block body %}
-        <!-- <div class="header">
-            <div class="logo" class="header-option">Restaurant<span id="greenGuide">Guide</span> </div>
-            <div class="header-option">Charlotte</div> -->
-            <!-- <form id="login-where-to">
-                <input type="text" name="location" placeholder="Where to?">
-                <button type="submit">Go</button>
-            </form> -->
-        <!-- </div> -->
 
         {% for msg in get_flashed_messages() %}
         <p class="flash-msg">
             {{ msg }}
         </p>
         {% endfor %}
-        
-
-    <div id="listing-grids-login">
-        {% for rest in restaurants["businesses"] %}
-
-        <div>
-          <div>Restaurants in {{rest["location"]["city"]}}</div>
-          <a href="/rest_details/{{rest['id']}}">
-            <div class="restaurant-box">
-              <img src="{{rest['image_url']}}"/>
-              <div>{{rest["name"]}}</div>
-              <div>$-{{rest.get("price", "$$$$")}}</div>
-            </div>
-          </a>
-  
-      {%endfor%}    
-    </div> 
 
 {% endblock %}
 
+{% block script%}
+  <script> show_all_rests(""); </script>
+{% endblock %}

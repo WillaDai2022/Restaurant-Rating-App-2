@@ -3,50 +3,24 @@
 
 {% block body %}
 
-  <!-- <div>
-    Restaurant Guide
-    <a href="/sign_in" id="signin">Sign In</a>
-    <a href="/sign_up" id="signup">Sign Up</a>
-  </div> -->
+<div>Find it, try it and review it</div>
 
+<form id="home-where-to">
+  <p>
+    <input type="text" name="location" placeholder="Where to?">
+  </p>
 
-  <div>Find it, try it and review it</div>
+  <p>
+    <input type="submit" value="Find Food">
+  </p>
+</form>
 
-  
+{% if "user_id" not in session %}
+<a href="/sign_in">Sign in to see more..</a>
+{%endif%}
 
-  <form id="home-where-to">
-    <p>
-      <input type="text" name="location" placeholder="Where to?">
-    </p>
-
-    <p>
-      <input type="submit", value="Find Food">
-    </p>
-  </form>
-  {% if "user_id" not in session %}
-  <a href="/sign_in">Sign in to see more..</a>
-  {%endif%}
-
-  <div id="listing-grids-home">  
-
-    {% for rest in restaurants["businesses"] %}
-
-      <div>
-        <div>Restaurants in {{rest["location"]["city"]}}</div>
-        <a href="/rest_details/{{rest['id']}}">
-          <div class="restaurant-box">
-            <img src="{{rest['image_url']}}"/>
-            <div>{{rest["name"]}}</div>
-            <div>$-{{rest.get("price", "$$$$")}}</div>
-          </div>
-        </a>
-
-    {%endfor%}    
-  </div> 
-  
-  <script src="/static/js/showAllRestsHome.js"></script>
 {% endblock %}
 
-{% block after_body%}
-
+{% block script%}
+<script src="/static/js/home.js"></script>
 {% endblock %}
