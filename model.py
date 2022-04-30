@@ -8,7 +8,7 @@ db = SQLAlchemy()
 class User(db.Model):
     """A user"""
 
-    __tabalename__ = "user"
+    __tabalename__ = "user_r"
 
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     password = db.Column(db.String, nullable=False)
@@ -19,34 +19,36 @@ class User(db.Model):
     photo = db.Column(db.String)
 
     ratings = db.relationship("Rating", back_populates="user")
-    fav_rests = db.relationship("Fav_rest", secondary="rest_genre", back_populates="users")
+    rests = db.relationship("Restaurant", secondary="fav_rest", back_populates="users")
 
     def __repr__(self):
         "Show user_id and user_name"
 
         return f"<user_id: {self.user_id} user_name: {self.fname} {self.lname}>"
 
-class Rest_genre(db.Model):
+class fav_rest(db.Model):
     """User's favorite restaurant -- associate table"""
 
-    __tablename__ = "rest_genre"
+    __tablename__ = "fav_rest"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey("fav_rest.restaurant_id"), nullable=False)
+    restaurant_id = db.Column(db.Integer, db.ForeignKey("restaurant.restaurant_id"), nullable=False)
 
     
-class Fav_rest(db.Model):
+class Restaurant(db.Model):
     """A restaurent"""
 
-    __tablename__ = "fav_rest"
+    __tablename__ = "restaurant"
 
     restaurant_id = db.Column(db.Integer,primary_key=True, autoincrement=True)
     yelp_id = db.Column(db.String(), nullable=False)
     name = db.Column(db.String(), nullable=False)
+    address = db.Column(db.String)
+    url = db.Column(db.String)
 
     # ratings = db.relationship("Rating", back_populates="restaurant")
-    users = db.relationship("User", secondary="rest_genre", back_populates="fav_rests")
+    users = db.relationship("User", secondary="fav_rest", back_populates="rests")
 
     def __repr__(self):
         """Show restaurant id and name"""
