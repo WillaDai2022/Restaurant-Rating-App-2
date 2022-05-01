@@ -1,0 +1,23 @@
+[33mcommit 6fc6bdff66c5b9ec22bc6781447419a9ea903941[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Wei Dai <greendaiwei@gmail.com>
+Date:   Sat Apr 30 15:31:11 2022 -0400
+
+    Day 13 Finished skeleton but photo upload and show fav rests not working
+
+[33mcommit 77682011e3817a71a6501c7aa5b6eb2d0e88d4be[m
+Author: Wei Dai <greendaiwei@gmail.com>
+Date:   Fri Apr 29 13:51:30 2022 -0400
+
+    Day 12 Search box is working now
+
+[33mcommit 59ccbef349142a5d7ae29119a4c3f4edcbc183c3[m
+Author: Wei Dai <greendaiwei@gmail.com>
+Date:   Thu Apr 28 10:43:46 2022 -0400
+
+    Day 11 Adjusted Bootstrap navbar
+
+[33mcommit f08009eb3a1735350a69351ab0d0535a4d2c1e33[m
+Author: Wei Dai <greendaiwei@gmail.com>
+Date:   Wed Apr 27 08:54:03 2022 -0400
+
+    Day 10 Incoporated Google map API and Bootstrap

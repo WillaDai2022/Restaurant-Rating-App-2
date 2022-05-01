@@ -1,0 +1,28 @@
+{% extends 'base-2.html' %}
+
+ {% block body %}
+
+    <h1>{{session["fname"]}} {{session["lname"]}}</h1>
+    <div class = "User-info">
+        <div class="user-phone">{{user.phone}}</div>
+        <divc class="user-email">{{user.email}}</div>
+    </div>
+
+      <img src="{{user.photo}}" alt="user_photo" width="200">
+      {{user.photo}}
+  
+  
+    <form action="/user_photo_upload/{{user_id}}" method="post" enctype="multipart/form-data">
+        <input type="file" name="my-file">
+        <input type="submit">
+    </form>
+    
+</body>
+</html>
+
+{% for msg in get_flashed_messages() %}
+<p class="flash-msg">
+  {{ msg }}
+</p>
+{% endfor %}
+{% endblock %}

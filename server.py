@@ -1,11 +1,10 @@
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
-from model import connect_to_db, db, User, Rating, Fav_rest
+from model import connect_to_db, db, User, Rating, Restaurant
 import crud
 from jinja2 import StrictUndefined
 import requests
 import json,os,re
 import cloudinary.uploader
-import psycopg2
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -18,15 +17,6 @@ CLOUD_NAME = "djyfl2zja"
 @app.route("/")
 def homepage():
     """View homepage."""
-
-    # parameters = {
-    #     "term" : "restaurants",
-    #     "radius": "5000",
-    #     "limit": "10",
-    #     "location": "28226"
-    # }
-
-    # restaurants = yelp_api_get(None, "businesses/search", parameters).json()
 
     return render_template("homepage.html")
 
@@ -114,7 +104,6 @@ def get_rests_info():
 
     location = request.args.get("location")
 
-    print(location)
 
     if not location:
         location = "28226"
@@ -140,22 +129,6 @@ def show_restaurant_details(yelp_id):
     ratings = crud.get_rating_by_yelp_id(yelp_id)
 
     return render_template("rest-details.html", rest = rest, ratings=ratings, yelp_id=yelp_id)
-
-
-
-
-
-
-# @app.route("/get_rest_review/<yelp_id>")
-# def get_restaurant_reviews(yelp_id):
-#     """Get reviews of a restaurant"""
-
-#     ratings = Rating.query.filter(Rating.yelp_id == yelp_id).first()
-
-#     if ratings:
-#         return jsonify(ratings)
-#     else:
-#         return jsonify([])
         
 
 @app.route("/review_page/<yelp_id>")
@@ -185,6 +158,7 @@ def save_user_review(yelp_id):
         db.session.add(rating)
         db.session.commit()
         return redirect(f"/rest_details/{yelp_id}")
+        
 
 @app.route("/user_profile/<user_id>")
 def show_user_profile(user_id):
@@ -192,52 +166,67 @@ def show_user_profile(user_id):
 
 
     user = crud.get_user_by_id(user_id)
-   
-    phone = user.phone
-    email = user.email
+
   
-    return render_template("user-profile.html", phone = phone, email = email, user_id = user_id)
+    return render_template("user-profile.html", user=user, user_id = user_id)
+
 
 @app.route("/user_fav_rests/<user_id>")
 def show_user_fav_rest(user_id):
     """Show the restaurants favorited by one user"""
 
     user = crud.get_user_by_id(user_id)
-    fav_rests = user.fav_rests
-
-    rests = []
-
-    # for rest in fav_rests:
+    rests = user.rests
 
 
-    return render_template("user-fav-rests.html", fav_rests = fav_rests)
+    return render_template("user-fav-rests.html", rests = rests)
+
+
+@app.route("/add_fav_rest", methods=["POST"])
+def add_fav_rest():
+    """Add user favorite restaurant"""
+
+    user = crud.get_user_by_id(session.get("user_id"))
+    name = request.json.get("name")
+    address = request.json.get("address1") + " " + request.json.get("address2")
+    url = request.json.get("url")
+    yelp_id = request.json.get("yelp_id")
+
+
+    # print("**************************")
+    # print(user)
+
+    rest = crud.create_rest(yelp_id, name, address, url, user)
+    db.session.add(rest)
+    db.session.commit
+
+    return redirect(f"/rest_details/{yelp_id}")
+
+
 
 @app.route("/user_photo_upload/<user_id>", methods=["POST"])
 def upload_user_photo(user_id):
     """Process image uploaded by the user"""
 
-    my_file = request.files['my-file']
+    my_file = request.files["my-file"]
 
     result = cloudinary.uploader.upload(my_file,
                                         api_key=CLOUDINARY_KEY,
                                         api_secret=CLOUDINARY_SECRET,
                                         cloud_name=CLOUD_NAME)
-
+                                        
     img_url = result['secure_url']
     
+    #get user by id and update the photo
     user = crud.get_user_by_id(user_id)
+    user.photo = img_url
+    session["photo"] = user.photo
+    db.session.commit()
 
-    conn = psycopg2.connect(
-        database = "restaurant_guide", user="postgres", password="secret", host = "127.0.0.1"
-    )
-
-    #Setting aut
-    conn.autocommit = True
+    return redirect(f"/user_profile/{user_id}")
 
 
-
-
-
+  
 @app.route("/sign_out")
 def sign_out():
     """User Sign Out"""
@@ -258,13 +247,6 @@ def yelp_api_get(yelp_id, end_point, parameters):
         return requests.get(f"{url}/{yelp_id}", headers=HEADERS)
     else:
         return requests.get(url, params=parameters, headers=HEADERS)
-
-def save_url_to_user(user_id, url):
-    """Save the url of the phtots uploaded by the user to the database"""
-
-    user = crud.get_user_by_id(user_id)
-
-
 
 
 if __name__ == "__main__":
