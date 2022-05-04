@@ -1,5 +1,5 @@
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
-from model import connect_to_db, db, User, Rating, Restaurant
+from model import connect_to_db, db
 import crud
 from jinja2 import StrictUndefined
 import requests
@@ -34,7 +34,7 @@ def process_login():
     email = request.form.get("email")
     password = request.form.get("password")
 
-    user = crud.get_user_by_email(email)
+    user = crud.get_account_by_email(email)
 
     if not user or user.password != password:
         flash("Unable to login with this email address and password. Check your login information and try again.")
@@ -42,7 +42,7 @@ def process_login():
     else:
         # Log in user by storing the user's email and id in session
         session["user_email"] = user.email
-        session["user_id"] = user.user_id
+        session["user_id"] = user.account_id
         session["fname"] = user.fname
         session["lname"] = user.lname
         flash(f"Welcome back, {user.fname} {user.lname}!")
@@ -76,23 +76,31 @@ def process_sign_up():
     phone = request.form.get("phone")
 
     #regex 
-    regex= r"^(\+\w{1,2}\s)?\(?\w{3}\)?[\s.-]\w{3}[\s.-]\w{4}$"
+    regex= r"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$"
 
-    user1 = crud.get_user_by_email(email)
-    user2 = crud.get_user_by_phone(phone)
+    user1 = crud.get_account_by_email(email)
+    user2 = crud.get_account_by_phone(phone)
 
-    if user1:
+    if not fname:
+        flash("First name is required")
+    elif not lname:
+        flash("Last name is required")
+    elif not email:
+        flash("Email is required")
+    elif not phone:
+        flash("Phone number is required")
+    elif user1:
         flash("An account is already associated with this email. Sign in to get started.")
     elif user2:
         flash("Mobile number already exists. Please try again with another one")
     elif not re.search(regex, phone):
         flash("Phone number is of invalid format")
     elif password and len(password) < 8:
-        flash("Password must contain at least 8 characters.")
+        flash("Password must contain at least 8 characters")
     else:
-        new_user = crud.create_user(email, password, phone, fname, lname)
-        db.session.add(new_user)
-        db.session.commit()
+        new_user = crud.create_account(email, password, phone, fname, lname)
+        crud.db.session.add(new_user)
+        crud.db.session.commit()
         flash("Your account was created successfully and you can now log in.")
 
     return redirect("/sign_up")
@@ -104,6 +112,7 @@ def get_rests_info():
 
     location = request.args.get("location")
 
+    print(location)
 
     if not location:
         location = "28226"
@@ -116,7 +125,9 @@ def get_rests_info():
         "location": location
     }
 
+
     restaurants = yelp_api_get(None, "businesses/search", parameters).json()
+
 
     return restaurants
 
@@ -148,15 +159,15 @@ def save_user_review(yelp_id):
         flash("Please log in to leave a review")
         return redirect(f"/review_page/{yelp_id}")
     else:
-        user = User.query.get(session["user_id"])
+        user = crud.get_account_by_id(session["user_id"])
         title = request.form.get("title")
         score = int(request.form.get("score"))
         review = request.form.get("review")
         yelp_id = yelp_id
 
         rating = crud.create_rating_without_pic(user, title, score, review, yelp_id)
-        db.session.add(rating)
-        db.session.commit()
+        crud.db.session.add(rating)
+        crud.db.session.commit()
         return redirect(f"/rest_details/{yelp_id}")
         
 
@@ -165,43 +176,10 @@ def show_user_profile(user_id):
     """show user profile"""
 
 
-    user = crud.get_user_by_id(user_id)
+    user = crud.get_account_by_id(user_id)
 
   
     return render_template("user-profile.html", user=user, user_id = user_id)
-
-
-@app.route("/user_fav_rests/<user_id>")
-def show_user_fav_rest(user_id):
-    """Show the restaurants favorited by one user"""
-
-    user = crud.get_user_by_id(user_id)
-    rests = user.rests
-
-
-    return render_template("user-fav-rests.html", rests = rests)
-
-
-@app.route("/add_fav_rest", methods=["POST"])
-def add_fav_rest():
-    """Add user favorite restaurant"""
-
-    user = crud.get_user_by_id(session.get("user_id"))
-    name = request.json.get("name")
-    address = request.json.get("address1") + " " + request.json.get("address2")
-    url = request.json.get("url")
-    yelp_id = request.json.get("yelp_id")
-
-
-    # print("**************************")
-    # print(user)
-
-    rest = crud.create_rest(yelp_id, name, address, url, user)
-    db.session.add(rest)
-    db.session.commit
-
-    return redirect(f"/rest_details/{yelp_id}")
-
 
 
 @app.route("/user_photo_upload/<user_id>", methods=["POST"])
@@ -218,12 +196,71 @@ def upload_user_photo(user_id):
     img_url = result['secure_url']
     
     #get user by id and update the photo
-    user = crud.get_user_by_id(user_id)
+    user = crud.get_account_by_id(user_id)
     user.photo = img_url
     session["photo"] = user.photo
     db.session.commit()
 
     return redirect(f"/user_profile/{user_id}")
+
+
+@app.route("/user_fav_rests/<user_id>")
+def show_user_fav_rest(user_id):
+    """Show the restaurants favorited by one user"""
+
+    user = crud.get_account_by_id(user_id)
+    rests = user.fav_rests
+
+    return render_template("user-fav-rests.html", rests = rests, user_id=user_id)
+
+
+@app.route("/add_fav_rest", methods=["POST"])
+def add_fav_rest():
+    """Add user favorite restaurant"""
+
+    user = crud.get_account_by_id(session.get("user_id"))
+    name = request.json.get("name")
+    address = request.json.get("address1") + " " + request.json.get("address2")
+    url = request.json.get("url")
+    yelp_id = request.json.get("yelp_id")
+
+
+    rest = crud.get_restaurant_by_yelp_id(yelp_id) # Try to get restraunt
+    
+    if rest: # Check if the restruant already exists
+        if not (user in rest.fav_accounts): # Check if the user has already favorited it
+            # print("HI         ")
+            rest.fav_accounts.append(user) # Add user to favorites. 
+    else: # Create restraunt if it didn't exist
+        
+        rest = crud.create_rest(yelp_id, name, address, url, user)
+        print(rest)
+        crud.db.session.add(rest)
+    
+    crud.db.session.commit() # Update DB
+
+    return {"status": "Favorite added!"}
+
+
+
+@app.route("/delete_fav_rest", methods=["POST"])
+def delete_fav_rest():
+
+    user = crud.get_account_by_id(session.get("user_id"))
+    status = ""
+
+    yelp_id = request.json.get("yelp_id") #TODO 
+    print(yelp_id)
+
+    rest = crud.get_restaurant_by_yelp_id(yelp_id) # Try to get restraunt
+    if rest: # if we get a restraurant back then
+        rest.fav_accounts.remove(user)
+        crud.db.session.commit()
+        status = "success"
+    else: # otherwise fail
+        status = "fail"    
+
+    return {"status": status}
 
 
   

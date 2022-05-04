@@ -5,7 +5,7 @@ const show_all_rests = (q_string) => {
   .then(response => response.json())
   .then(responseData => {
 
-    const data = responseData.businesses;
+    const data = responseData.businesses; // need to handel getting a invalid response 
     const rest_container = document.querySelector('#listing-grids');
     
     rest_container.innerHTML = '';
@@ -37,25 +37,3 @@ document.querySelector('#nav-where-to').addEventListener('submit', (evt)  => {
 
 
 
-// document.querySelector('#nav-where-to').addEventListener('submit', (evt)  => {
-//     evt.preventDefault(); // Prevent the submision of the form
-//     window.location.replace(`/?location=${evt.target.querySelector("input").value}`)
-//   });
-
-
-// function getQueryVariable(variable){
-//   let query = window.location.search.substring(1);
-//   let vars = query.split("&");
-//   for (let i=0;i<vars.length;i++) {
-//           let pair = vars[i].split("=");
-//           if(pair[0] == variable){return pair[1];}
-//   }
-//   return(false);
-// }
-
-// queryString = getQueryVariable("location")
-
-// document.querySelector('#nav-where-to').addEventListener('submit', (evt)  => {
-//   evt.preventDefault(); // Prevent the submision of the form
-//   show_all_rests(`/?location=${queryString}`)
-// });

@@ -1,40 +1,40 @@
 """CRUD operations."""
 
-from model import db, User, Rating, Restaurant, connect_to_db
+from model import db, Account, Rating, Restaurant, connect_to_db
 
 
-def create_user(email, password, phone, fname, lname):
-    """Create and return a new user."""
+def create_account(email, password, phone, fname, lname):
+    """Create and return a new user account."""
 
-    user = User(email=email, password=password, phone=phone, fname=fname, lname=lname, photo = f"/static/image/no-photo.png")
+    account = Account(email=email, password=password, phone=phone, fname=fname, lname=lname, photo = f"/static/image/no-photo.png")
 
-    return user
-
-
-def get_users():
-    """Show all the users"""
-
-    return User.query.all()
+    return account
 
 
-def get_user_by_id(user_id):
-    """Return a user with a specific id"""
+def get_accounts():
+    """Show all the user accounts"""
 
-    return User.query.get(user_id)
-
-
-def get_user_by_email(email):
-    """Return a user by email."""
-
-    return User.query.filter(User.email == email).first()
-
-def get_user_by_phone(phone):
-    """Return a user by phone number"""
-
-    return User.query.filter(User.phone == phone).first()
+    return Account.query.all()
 
 
-def create_rest(yelp_id, name, address, url, users):
+def get_account_by_id(account_id):
+    """Return a user account with a specific id"""
+
+    return Account.query.get(account_id)
+
+
+def get_account_by_email(email):
+    """Return a user account by email."""
+
+    return Account.query.filter(Account.email == email).first()
+
+def get_account_by_phone(phone):
+    """Return a user account by phone number"""
+
+    return Account.query.filter(Account.phone == phone).first()
+
+
+def create_rest(yelp_id, name, address, url, accounts):
     """Create and return a new restaurant."""
 
     restaurant = Restaurant(
@@ -42,7 +42,7 @@ def create_rest(yelp_id, name, address, url, users):
         name=name, 
         address = address,
         url = url,
-        users=users,
+        fav_accounts=[accounts],
     )
 
     return restaurant
@@ -66,10 +66,10 @@ def get_restaurant_by_yelp_id(yelp_id):
 
 
 
-def create_rating_without_pic(user, title, score, review, yelp_id):
+def create_rating_without_pic(account, title, score, review, yelp_id):
     """create a rating to a movie by a user"""
 
-    rating = Rating(user=user, title = title, 
+    rating = Rating(account=account, title = title, 
                     score=score, review= review, yelp_id=yelp_id)
         
     return rating

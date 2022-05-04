@@ -5,12 +5,12 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-class User(db.Model):
-    """A user"""
+class Account(db.Model):
+    """A user account"""
 
-    __tabalename__ = "user_r"
+    __tablename__ = "account"
 
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    account_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     password = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     phone = db.Column(db.String(20), nullable=False)
@@ -18,21 +18,21 @@ class User(db.Model):
     lname = db.Column(db.String(50), nullable=False)
     photo = db.Column(db.String)
 
-    ratings = db.relationship("Rating", back_populates="user")
-    rests = db.relationship("Restaurant", secondary="fav_rest", back_populates="users")
+    ratings = db.relationship("Rating", back_populates="account")
+    fav_rests = db.relationship("Restaurant", secondary="fav_rest", back_populates="fav_accounts")
 
     def __repr__(self):
         "Show user_id and user_name"
 
-        return f"<user_id: {self.user_id} user_name: {self.fname} {self.lname}>"
+        return f"<account_id: {self.account_id} account_name: {self.fname} {self.lname}>"
 
-class fav_rest(db.Model):
+class FavoriteRestraunt(db.Model):
     """User's favorite restaurant -- associate table"""
 
     __tablename__ = "fav_rest"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
+    account_id = db.Column(db.Integer, db.ForeignKey("account.account_id"), nullable=False)
     restaurant_id = db.Column(db.Integer, db.ForeignKey("restaurant.restaurant_id"), nullable=False)
 
     
@@ -47,8 +47,8 @@ class Restaurant(db.Model):
     address = db.Column(db.String)
     url = db.Column(db.String)
 
-    # ratings = db.relationship("Rating", back_populates="restaurant")
-    users = db.relationship("User", secondary="fav_rest", back_populates="rests")
+
+    fav_accounts = db.relationship("Account", secondary="fav_rest", back_populates="fav_rests")
 
     def __repr__(self):
         """Show restaurant id and name"""
@@ -67,11 +67,11 @@ class Rating(db.Model):
     score = db.Column(db.Integer, nullable=False)
     review = db.Column(db.Text)
     yelp_id=db.Column(db.String)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
-    # restaurant_id = db.Column(db.Integer, db.ForeignKey("fav_rest.restaurant_id"), nullable=False)
+    account_id = db.Column(db.Integer, db.ForeignKey("account.account_id"), nullable=False)
+  
 
-    user = db.relationship("User", back_populates="ratings")
-    # restaurant = db.relationship("Fav_rest", back_populates="ratings")
+    account = db.relationship("Account", back_populates="ratings")
+   
 
     def __repr__(self):
         """Show rating id and score"""

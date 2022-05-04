@@ -1,16 +1,15 @@
 
 const button = document.querySelector('#fav-rest')
-button.addEventListener('click', ()=> {
+button.addEventListener('click', (evt)=> {
+  evt.preventDefault();
 
     const restInfo = {
-        name: button.getAttribute('data-name'),
-        address1: button.getAttribute('data-address1'),
-        address2: button.getAttribute('data-address2'),
-        utl: button.getAttribute('data-url'),
-        yelp_id: button.getAttribute('data-yelp')
+        name: button.dataset.name,
+        address1: button.dataset.address1,
+        address2: button.dataset.address2,
+        url: button.dataset.url,
+        yelp_id: button.dataset.yelp,
       };
-
-      
 
       fetch('/add_fav_rest', {
         method: 'POST',
@@ -22,6 +21,8 @@ button.addEventListener('click', ()=> {
         .then(response => response.json())
         .then(responseJson => {
           alert(responseJson.status);
+
+          //TODO Udate nav-bar favorites 
         });
     });
 

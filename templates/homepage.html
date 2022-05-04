@@ -6,14 +6,9 @@
 <div>Find it, try it and review it</div>
 
 <form id="where-to">
-
-    <input type="text" name="location" placeholder="Where to?"><br>
-
-
-  <p>
-    <input type="submit" value="Find Food">
-  </p>
-</form>
+  <input type="text" name="location" placeholder="Where to?">
+  <input type="submit" value="Find Food">
+</form>  
 
 {% if "user_id" not in session %}
 <a href="/sign_in">Sign in to see more..</a>

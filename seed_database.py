@@ -28,7 +28,7 @@ for user in user_data:
         user["lname"]
     )
 
-    db_user = crud.create_user(email, password, phone, fname, lname)
+    db_user = crud.create_account(email, password, phone, fname, lname)
     users_in_db.append(db_user)
 
 # Add all users to database
