@@ -242,6 +242,8 @@ def add_fav_rest():
         if not (user in rest.fav_accounts): # Check if the user has already favorited it
             # print("HI         ")
             rest.fav_accounts.append(user) # Add user to favorites. 
+        else:
+            return{"status": "Already favorited!"}
     else: # Create restraunt if it didn't exist
         
         rest = crud.create_rest(yelp_id, name, address, url, user)

@@ -113,3 +113,8 @@ a{
   margin-top: 20px;
 }
 
+.background-box-login{
+  background-image: url("/static/image/homeBackground.jpg");
+  margin-bottom: 1px;
+}
+

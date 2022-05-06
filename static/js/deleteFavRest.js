@@ -8,7 +8,7 @@ for (const button of noButton){
       fetch('/delete_fav_rest', {
         method: 'POST',
         body: JSON.stringify({
-          "yelp_id": evt.target.value,
+          "yelp_id": evt.currentTarget.value,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ for (const button of noButton){
         .then(responseJson => {
           alert(responseJson.status);
 
-          //TODO Udate nav-bar favorites 
+          location.reload(true)
         });
     });
 

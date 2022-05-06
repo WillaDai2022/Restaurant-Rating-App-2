@@ -5,8 +5,8 @@
   
 {% block body %}
 
-    <div id="rest-info">
-        <div>
+    <div id="rest-info" class="row">
+        <div class="col-md-7">
             <div class="rest-location review-name">Restaurants in {{rest.location.city}}</div>
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
@@ -16,13 +16,13 @@
                 </div>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="{{rest.photos[2]}}" class="d-block w-75" height="500">
+                    <img src="{{rest.photos[2]}}" class="d-block w-100" height="400">
                   </div>
                   <div class="carousel-item">
-                    <img src="{{rest.photos[1]}}" class="d-block w-75" height="500">
+                    <img src="{{rest.photos[1]}}" class="d-block w-100" height="400">
                   </div>
                   <div class="carousel-item">
-                    <img src="{{rest.photos[0]}}" class="d-block w-75" height="500">
+                    <img src="{{rest.photos[0]}}" class="d-block w-100" height="400">
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

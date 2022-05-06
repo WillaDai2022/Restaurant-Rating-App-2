@@ -1,31 +1,107 @@
 {% extends 'base-2.html' %}
-{% block title %}Restaurant Guide Login{% endblock %}
+{% block title %}Restaurant Guide | Login{% endblock %}
 
 {% block body %}
-  <div class="row justify-content-center align-items-center sign-in-text">
-    <div class="col-md-6">
-      <p>Sign In</p>
-      <p>New to Reataurant Guide? <a href="/sign_up" id="red-signup">Sign Up</a></p>
-      <div class="outer-box">
-        <div class="inner-box">
-          <form action="/all_rests" method="POST">
-            <div>
-              <label for="email-login">Email</label><br>
-              <input type="text" name="email" id="email-login">
+
+
+<section class="vh-100">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-sm-6 px-0 d-none d-sm-block">
+        <img src="/static/image/signin-purple.jpg"
+          alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+      </div>
+
+      <div class="col-sm-6 text-black">
+
+        <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-xl-0 mt-xl-n5">
+
+          <form action="/all_rests" method="POST" style="width: 23rem;">
+
+            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
+          
+            <div class="form-outline mb-4">
+              <input type="email" id="form2Example18" name="email" class="form-control form-control-lg" />
+              <label class="form-label" for="form2Example18">Email address</label>
             </div>
-            
-            <div>
-              <label for="password-login">Password</label><br>
-              <input type="password" name="password" id="password-login">
+
+            <div class="form-outline mb-4">
+              <input type="password" id="form2Example28" name="password"  class="form-control form-control-lg" />
+              <label class="form-label" for="form2Example28">Password</label>
             </div>
-            
-            <button class="red-button" type="submit">Sign In</button>
+
+            <div class="pt-1 mb-4">
+              <button class="btn btn-info btn-lg btn-block" type="submit">Login</button>
+            </div>
+
+            <p>Don't have an account? <a href="/sign_up" class="link-info">Register here</a></p>
+
           </form>
+
+        </div>
+
+      </div>
+     
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="background-box-login">
+  <section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card-transparent login-box" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+  
+              <div class="mb-md-5 mt-md-4 pb-5">
+  
+                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                <p class="text-white-50 mb-5">Please enter your login and password!</p>
+  
+                <form action="/all_rests" method="POST">
+                <div class="form-outline form-white mb-4">
+                  <input type="email" id="typeEmailX" name="email" class="form-control form-control-lg" />
+                  <label class="form-label" for="typeEmailX">Email</label>
+                </div>
+  
+                <div class="form-outline form-white mb-4">
+                  <input type="password" id="typePasswordX" name="password" class="form-control form-control-lg" />
+                  <label class="form-label" for="typePasswordX">Password</label>
+                </div>
+  
+                <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+  
+                <button class="btn btn-outline-dark btn-lg px-5" type="submit">Login</button>
+                </form>
+              </div>
+  
+              <div>
+                <p class="mb-0">Don't have an account? <a href="/sign_up" class="text-black-50 fw-bold">Sign Up</a>
+                </p>
+              </div>
+  
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-    
+  </section>
+</div>
+</div> -->
 
 
   {% for msg in get_flashed_messages() %}
