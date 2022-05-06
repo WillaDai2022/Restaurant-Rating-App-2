@@ -134,9 +134,26 @@
             <div>No review yet</div>
         {%endif%}
     </div>
+<<<<<<< HEAD
 
 
 
+=======
+
+    {% if "user_id" in session%}
+        <a href="/review_page/{{yelp_id}}" class="btn btn-default btn-block">Leave a review</a>
+    {%else%}
+        <a href="#"><button id="no-review-button">Leave a review</button>
+        </a>
+        <script>
+            document.querySelector('#no-review-button').addEventListener('click', ()=>{
+                alert("Please login to leave a review");
+            });
+        </script>
+    {% endif %}
+
+
+>>>>>>> 6fc6bdff66c5b9ec22bc6781447419a9ea903941
 {% endblock %}
 
 

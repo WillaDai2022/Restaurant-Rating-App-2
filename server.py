@@ -299,11 +299,6 @@ def yelp_api_get(yelp_id, end_point, parameters):
         return requests.get(url, params=parameters, headers=HEADERS)
 
 
-@app.route("/test")
-def show_test():
-    return render_template('test.html')
-
-
 if __name__ == "__main__":
     # connect to database before app.run gets called. 
     # If not, Flask won’t be able to access your database
