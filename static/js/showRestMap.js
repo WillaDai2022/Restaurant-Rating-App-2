@@ -8,7 +8,7 @@ const lng = Number(document.querySelector('#map').getAttribute('data-lng'))
 function initMap(){
     
     let options = {
-        zoom: 12,
+        zoom: 13,
         center:{lat:lat, lng:lng}
     }
 

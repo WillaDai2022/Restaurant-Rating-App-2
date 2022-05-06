@@ -67,10 +67,18 @@ def get_restaurant_by_yelp_id(yelp_id):
 
 
 def create_rating_without_pic(account, title, score, review, yelp_id):
-    """create a rating to a movie by a user"""
+    """create a rating to a restaurant by a user"""
 
     rating = Rating(account=account, title = title, 
                     score=score, review= review, yelp_id=yelp_id)
+        
+    return rating
+
+def create_rating_with_pic(account, title, score, review, yelp_id, pic):
+    """Create a rating """
+
+    rating = Rating(account=account, title = title, 
+                    score=score, review= review, yelp_id=yelp_id, pic=pic)
         
     return rating
 

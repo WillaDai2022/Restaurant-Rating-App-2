@@ -1,20 +1,30 @@
 {% extends 'base.html' %}
 {% block title %}Search Restaurant Online | Restaurant Review App | Restaurant Guide{% endblock %}
 
-{% block body %}
+{%block pic%} 
 
-<div>Find it, try it and review it</div>
-
-<form id="where-to">
-  <input type="text" name="location" placeholder="Where to?">
-  <input type="submit" value="Find Food">
-</form>  
-
-{% if "user_id" not in session %}
-<a href="/sign_in">Sign in to see more..</a>
-{%endif%}
+<div div class="container-fluid home-box"> 
+  <div class="find-box">
+    <div class="find-text">Find it, try it and review it</div>
+    <form id="where-to">
+      <input type="text" name="location" placeholder="Where to?">
+      <input type="submit" value="Find Food">
+    </form>  
+    {% if "user_id" not in session %}
+    <a class="rest-box" href="/sign_in">Sign in to see more..</a>
+    {%endif%}
+  </div>
+</div>
 
 {% endblock %}
+
+{% block body %}
+  <div class="row-12">
+    <div class="home-hint"> Restaurants near you</div>
+  </div>
+{% endblock %}
+
+
 
 {% block script%}
 <script src="/static/js/home.js"></script>

@@ -63,7 +63,7 @@ class Rating(db.Model):
 
     rating_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100))
-    # pic = db.Column(db.Text)
+    pic = db.Column(db.Text)
     score = db.Column(db.Integer, nullable=False)
     review = db.Column(db.Text)
     yelp_id=db.Column(db.String)

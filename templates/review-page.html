@@ -5,13 +5,17 @@
 {% block body %}
 
 
-<form action="/review_page/{{yelp_id}}" method="post">
+<form action="/review_page/{{yelp_id}}" method="post" enctype="multipart/form-data">
     <label for="review-score">Your overall rating of this restaurant</label>
     <select name="score" id="review-score">
         {% for num in range(1,6) %}
           <option value="{{ num }}">{{ num }}</option>
         {% endfor %}
-    </select>
+    </select><br>
+
+    
+    <!--Cloudinary file upload here-->
+    <input type="file" name="my-file">
 
     <div>
         <label for="review-title">Title of your review</label><br>

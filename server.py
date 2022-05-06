@@ -29,7 +29,7 @@ def sign_in():
 
 @app.route("/all_rests", methods=["POST"])
 def process_login():
-    """Process user login and show 10 restaurants"""
+    """Process user login and show 20 restaurants"""
 
     email = request.form.get("email")
     password = request.form.get("password")
@@ -50,7 +50,7 @@ def process_login():
         parameters = {
             "term" : "restaurants",
             "radius": "5000",
-            "limit": "10",
+            "limit": "20",
             "location": "28226"
         }
 
@@ -121,7 +121,7 @@ def get_rests_info():
     parameters = {
         "term" : "restaurants",
         "radius": "5000",
-        "limit": "10",
+        "limit": "20",
         "location": location
     }
 
@@ -138,6 +138,7 @@ def show_restaurant_details(yelp_id):
     rest = yelp_api_get(yelp_id, "businesses", None).json()
    
     ratings = crud.get_rating_by_yelp_id(yelp_id)
+
 
     return render_template("rest-details.html", rest = rest, ratings=ratings, yelp_id=yelp_id)
         
@@ -164,8 +165,18 @@ def save_user_review(yelp_id):
         score = int(request.form.get("score"))
         review = request.form.get("review")
         yelp_id = yelp_id
+        my_file = request.files['my-file']
+        result = cloudinary.uploader.upload(my_file,
+                                            api_key=CLOUDINARY_KEY,
+                                            api_secret=CLOUDINARY_SECRET,
+                                            cloud_name=CLOUD_NAME)
 
-        rating = crud.create_rating_without_pic(user, title, score, review, yelp_id)
+        if not result:
+            rating = crud.create_rating_without_pic(user, title, score, review, yelp_id)
+        else:
+            img_url = result['secure_url']
+            rating = crud.create_rating_with_pic(user, title, score, review, yelp_id, img_url)
+        
         crud.db.session.add(rating)
         crud.db.session.commit()
         return redirect(f"/rest_details/{yelp_id}")
@@ -284,6 +295,11 @@ def yelp_api_get(yelp_id, end_point, parameters):
         return requests.get(f"{url}/{yelp_id}", headers=HEADERS)
     else:
         return requests.get(url, params=parameters, headers=HEADERS)
+
+
+@app.route("/test")
+def show_test():
+    return render_template('test.html')
 
 
 if __name__ == "__main__":

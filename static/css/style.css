@@ -1,23 +1,115 @@
 
 .greenGuide {
   color:green;
-}
+} 
 
-.logo{
+ .logo{
   font-family: sans-serif;
   font-size: 30px;
-}
+} 
 
-#map{
+ #map{
   height:400px;
   width:100%
 
-}
+} 
 
 .icon{
   display:inline-block;
+} 
+
+
+
+ .find-text{
+  font-size:250%;
+}
+
+.home-hint{
+  font-size:150%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+} 
+
+
+ .rest-image{
+  border-radius: 1em;
+} 
+
+
+ .rest-box{
+  color:gray;
+  font-weight: bold;
+} 
+
+ .price{
+  color:goldenrod
+}
+
+.home-box{
+  background-image: url("/static/image/homeBackground.jpg");
+  background-size: auto;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  background-size: cover;
+  border-radius: 1px;
 }
 
 
 
+.find-box{
+  text-align: center;
+  margin:auto;
+  width:200;
+  height:200;
+  margin-bottom: 200px;
+  margin-top: 200px;
+}
+
+.sign-in-up{
+  float:right;
+  display:flex;
+}
+
+
+a{
+  text-decoration: none;
+}
+
+.sign-up-btn{
+  margin-right: 10px;
+  border-radius: 2;
+}
+
+.sign-in-text{
+  text-align:center;
+  margin-top: 100px;
+}
+
+.to-the-right{
+  float:right;
+}
+
+.search-box{
+  display: flex;
+}
+
+.rest-location{
+  font-size: 100;
+  margin-bottom: 20px;
+  color: #8a6809;
+}
+
+.checked{
+  color:#fbc634 !important;
+}
+
+.review-name{
+  font-size: medium;
+  font-weight: bold;
+}
+
+
+.review-box{
+  margin-top: 20px;
+}
 
