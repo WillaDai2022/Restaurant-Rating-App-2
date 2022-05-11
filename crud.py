@@ -28,6 +28,7 @@ def get_account_by_email(email):
 
     return Account.query.filter(Account.email == email).first()
 
+
 def get_account_by_phone(phone):
     """Return a user account by phone number"""
 
@@ -65,7 +66,6 @@ def get_restaurant_by_yelp_id(yelp_id):
     return Restaurant.query.filter(Restaurant.yelp_id==yelp_id).first()
 
 
-
 def create_rating_without_pic(account, title, score, review, yelp_id):
     """create a rating to a restaurant by a user"""
 
@@ -73,6 +73,7 @@ def create_rating_without_pic(account, title, score, review, yelp_id):
                     score=score, review= review, yelp_id=yelp_id)
         
     return rating
+
 
 def create_rating_with_pic(account, title, score, review, yelp_id, pic):
     """Create a rating """
@@ -87,6 +88,7 @@ def get_rating_by_yelp_id(yelp_id):
     """Return all the ratings for a specific restaurant"""
 
     return Rating.query.filter(Rating.yelp_id == yelp_id).all()
+
 
 if __name__ == '__main__':
     from server import app

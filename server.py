@@ -139,8 +139,14 @@ def show_restaurant_details(yelp_id):
    
     ratings = crud.get_rating_by_yelp_id(yelp_id)
 
+    user = crud.get_account_by_id(session["user_id"])
+    fav_rest = crud.get_restaurant_by_yelp_id(yelp_id)
+    favorited = False
+    if fav_rest in user.fav_rests:
+        favorited = True
 
-    return render_template("rest-details.html", rest = rest, ratings=ratings, yelp_id=yelp_id)
+
+    return render_template("rest-details.html", rest = rest, ratings=ratings, yelp_id=yelp_id, favorited=favorited)
         
 
 @app.route("/review_page/<yelp_id>")

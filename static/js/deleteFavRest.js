@@ -16,8 +16,6 @@ for (const button of noButton){
       })
         .then(response => response.json())
         .then(responseJson => {
-          alert(responseJson.status);
-
           location.reload(true)
         });
     });

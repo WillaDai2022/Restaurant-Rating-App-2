@@ -20,10 +20,33 @@ button.addEventListener('click', (evt)=> {
       })
         .then(response => response.json())
         .then(responseJson => {
-          alert(responseJson.status);
+          evt.target.classList.add("red-heart");
 
-          //TODO Udate nav-bar favorites 
+          Toastify({
+            text: responseJson.status,
+            className: "info",
+            gravity: "top",
+            position: 'center',
+            style: {
+              background: "linear-gradient(to right, #ff5f6d, #ffc371)",
+            }
+          }).showToast();
+
+
         });
     });
+
+
+
+
+
+
+
+// button.addEventListener('click', (evt) => {
+//   evt.preventDefault();
+//   for(const heart of hearts){
+//     heart.classList.add("red-heart")
+//     }
+// })
 
 

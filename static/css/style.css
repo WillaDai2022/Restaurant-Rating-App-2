@@ -77,7 +77,7 @@ a{
 
 .sign-up-btn{
   margin-right: 10px;
-  border-radius: 2;
+  border-radius: 3em;
 }
 
 .sign-in-text{
@@ -116,5 +116,13 @@ a{
 .background-box-login{
   background-image: url("/static/image/homeBackground.jpg");
   margin-bottom: 1px;
+}
+
+.flash-msg{
+  color:rgb(255, 60, 0);
+}
+
+.red-heart{
+  color:red;
 }
 

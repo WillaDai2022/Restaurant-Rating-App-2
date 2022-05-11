@@ -1,6 +1,9 @@
 
 const show_all_rests = (q_string) => {
 
+  let data = ''
+  let randRest=''
+
   fetch('/get_restaurants.json' + q_string)
   .then(response => response.json())
   .then(responseData => {
@@ -26,12 +29,29 @@ const show_all_rests = (q_string) => {
           </a>
         </div>`)
     };
+  
+    // console.log('data: ', data)
+  const rand = Math.floor(Math.random()*data.length);
+  // console.log('rand: ', rand)
+  randRest = data[rand];
+  
+  // console.log(document.querySelector('.test'))
+
+  const test = document.createElement('div');
+  //add hidden attribute so it hides this
+  //then create button with event listener for random rest
+  //if user clicks that button, remove the hidden attribute to show this restaurant
+  test.innerHTML = `&&&&&&&&&&&&&&&&& ${randRest.name}`
+  document.querySelector('.test').appendChild(test)
+
   });
 }
 
 document.querySelector('#nav-where-to').addEventListener('submit', (evt)  => {
       evt.preventDefault(); // Prevent the submision of the form
-      show_all_rests(`?location=${evt.target.querySelector("input").value}`)
+      let randRest = show_all_rests(`?location=${evt.target.querySelector("input").value}`)
+      console.log(randRest);
+      console.log("*******")
     });
 
 
