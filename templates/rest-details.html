@@ -41,9 +41,9 @@
    
     
     <!--Opening Hours Table-->
-    {% if rest.get("hours")%}
-    <!--Show opening hrs got from Yelp API-->
     <div class="col-md-5">
+        {% if rest.get("hours")%}
+    <!--Show opening hrs got from Yelp API-->
         <section class="openinghours">
             <div class="openinghourscontent section">
                 <div class="header">
@@ -74,43 +74,58 @@
                         <td>-</td>
                         <td class="closes">{{rest.hours[0].open[3].end[:2] + ":" + rest.hours[0].open[3].end[2:]}}</td>
                     </tr>
+                    {% if rest.get("hours")[0].open|length == 5 %}
                     <tr id="Friday" itemprop="openingHours" title="Open Friday at 9am to 6pm">
                         <td>Friday</td>
                         <td class="opens">{{rest.hours[0].open[4].start[:2] + ":" + rest.hours[0].open[4].start[2:]}}</td>
                         <td>-</td>
                         <td class="closes">{{rest.hours[0].open[4].end[:2] + ":" + rest.hours[0].open[4].end[2:]}}</td>
                     </tr>
-                    {% if rest.get("hours")[0].open|length == 6 %}
-                    <tr id="Saturday" itemprop="openingHours" title="Open Saturday at 10am to 6pm">
-                        <td>Saturday</td>
-                        <td class="opens">{{rest.hours[0].open[5].start[:2] + ":" + rest.hours[0].open[5].start[2:]}}</td>
-                        <td>-</td>
-                        <td class="closes">{{rest.hours[0].open[5].end[:2] + ":" + rest.hours[0].open[5].end[2:]}}</td>
-                    </tr>
+                    {% else %}
+                        <tr id="Saturday" itemprop="openingHours" title="Open Saturday at 10am to 6pm">
+                            <td>Friday</td>
+                            <td class="opens">Closed</td>
+                        </tr>
                     {% endif %}
+                    {% if rest.get("hours")[0].open|length == 6 %}
+                        <tr id="Saturday" itemprop="openingHours" title="Open Saturday at 10am to 6pm">
+                            <td>Saturday</td>
+                            <td class="opens">{{rest.hours[0].open[5].start[:2] + ":" + rest.hours[0].open[5].start[2:]}}</td>
+                            <td>-</td>
+                            <td class="closes">{{rest.hours[0].open[5].end[:2] + ":" + rest.hours[0].open[5].end[2:]}}</td>
+                        </tr>
+                    {% else %}
+                        <tr id="Saturday" itemprop="openingHours" title="Open Saturday at 10am to 6pm">
+                            <td>Saturday</td>
+                            <td class="opens">Closed</td>
+                        </tr>
+                    {% endif %}
+                    {% if rest.get("hours")[0].open|length == 7%}
                     <tr id="Sunday" itemprop="openingHours" title="Open Sunday at 11am to 4pm">
                         <td>Sunday</td>
                         <td class="opens">{{rest.hours[0].open[6].start[:2] + ":" + rest.hours[0].open[6].start[2:]}}</td>
                         <td>-</td>
                         <td class="closes">{{rest.hours[0].open[6].end[:2] + ":" + rest.hours[0].open[6].end[2:]}}</td>
                     </tr>
+                    {% else %}
+                    <td>Sunday</td>
+                    <td class="opens">Closed</td>
+                    {% endif %}
                 </table>
             </div>
         </section>
      <!--No info about the opening hrs in Yelp API-->
-    {% else %} 
-    <div class="col-md-5">
-        <section class="openinghours">
-            <div class="header">
-                <h2>Opening hours</h2>
-           </div>
-        </section>
-       <p>No info...</p>
-    </div>
-    </div>
-    {% endif %}
-   
-</div> 
+        {% else %} 
+            <section class="openinghours">
+                <div class="openinghourscontent section">
+                    <div class="header">
+                        <h2 class="greenGuide">Opening hours</h2>
+                    </div>
+                    <p>No info...</p>
+                </div>
+            </section>
+        {% endif %}
+    </div> 
 
     {% if "user_id" in session%}
     <div class = "fav-div">
@@ -127,10 +142,13 @@
 
     <div id="map" data-lat={{rest.coordinates.latitude}} data-lng={{rest.coordinates.longitude}}></div>
 
+    <h5 class="review-box"> You Might Also Consider</h5>
+    <div class="row" id="recommend-rests" data-location="{{rest.location.zip_code}}"></div>
+
     <div class="row">
         <div class="col-md-6">
             <div> 
-                <p class="review-name">What people are saying</p>
+                <p class="review-name review-box">What people are saying</p>
             </div>
         </div>
         <div class="col-md-6">
@@ -211,12 +229,7 @@
         {%endif%}
     </div>
 
-    <div class="recommend-rests">  
-        You Might Also Consider
-    
-    </div>
-
-
+  
 {% endblock %}
 
 
@@ -226,6 +239,7 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLe2ZMW3YBJ5SZKO3Hor0TJo_r-z_Kf8E&callback=initMap" async defer>
     </script>
   <script src="/static/js/addFavRest.js"></script>
+  <script src="/static/js/recommendRest.js"></script>
 
 {% endblock %}
       

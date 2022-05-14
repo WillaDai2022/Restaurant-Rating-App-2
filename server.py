@@ -157,7 +157,7 @@ def show_restaurant_details(yelp_id):
 
 
     return render_template("rest-details.html", rest = rest, ratings=ratings, yelp_id=yelp_id, favorited=favorited)
-        
+
 
 @app.route("/review_page/<yelp_id>")
 def leave_review(yelp_id):

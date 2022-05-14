@@ -1,7 +1,7 @@
 
-const showAllRests = (q_string) => {
+const showAllRests = (qString) => {
 
-  fetch('/get_restaurants.json' + q_string)
+  fetch('/get_restaurants.json' + qString)
   .then(response => response.json())
   .then(responseData => {
 
@@ -14,6 +14,9 @@ const showAllRests = (q_string) => {
       imgUrl = rest.image_url;
       city= rest.location.city; 
       name=rest.name;
+      if (!rest.price){
+        rest.price = "$-$$$$"
+      }
 
       rest_container.insertAdjacentHTML('beforeend',
       `<div class="col-md-3">
@@ -30,9 +33,10 @@ const showAllRests = (q_string) => {
   });
 }
 
+
 document.querySelector('#nav-where-to').addEventListener('submit', (evt)  => {
       evt.preventDefault(); // Prevent the submision of the form
-      let randRest = showAllRests(`?location=${evt.target.querySelector("input").value}`)
+      showAllRests(`?location=${evt.target.querySelector("input").value}`)
     });
 
 
