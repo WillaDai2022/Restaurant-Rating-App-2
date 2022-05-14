@@ -6,7 +6,7 @@ from model import db, Account, Rating, Restaurant, connect_to_db
 def create_account(email, password, phone, fname, lname):
     """Create and return a new user account."""
 
-    account = Account(email=email, password=password, phone=phone, fname=fname, lname=lname, photo = f"/static/image/no-photo.png")
+    account = Account(email=email, password=password, phone=phone, fname=fname, lname=lname, photo = f"/static/image/backgrounds/no-photo.png")
 
     return account
 

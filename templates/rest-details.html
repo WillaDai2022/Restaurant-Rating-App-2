@@ -7,7 +7,7 @@
 
     <div id="rest-info" class="row">
         <div class="col-md-7">
-            <div class="rest-location review-name">Restaurants in {{rest.location.city}}</div>
+            <H1 class="rest-location review-name">Restaurants in {{rest.location.city}}</H1>
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -38,7 +38,79 @@
             <div class="review-name">Phone: {{rest.display_phone}}</div>
             <div class="review-name">Address: {{rest.location.display_address[0]}} {{rest.location.display_address[1]}}</div>
         </div>
-    </div> 
+   
+    
+    <!--Opening Hours Table-->
+    {% if rest.get("hours")%}
+    <!--Show opening hrs got from Yelp API-->
+    <div class="col-md-5">
+        <section class="openinghours">
+            <div class="openinghourscontent section">
+                <div class="header">
+                     <h2 class="greenGuide">Opening hours</h2>
+                </div>
+                <table class="opening-hours-table">
+                    <tr id="Monday" itemprop="openingHours" title="Open Monday at 9am to 6pm">
+                        <td>Monday</td>
+                        <td class="opens">{{rest.hours[0].open[0].start[:2] + ":" + rest.hours[0].open[0].start[2:]}}</td>
+                        <td>-</td>
+                        <td class="closes">{{rest.hours[0].open[0].end[:2] + ":" + rest.hours[0].open[0].end[2:]}}</td>
+                    </tr>
+                    <tr id="Tuesday" itemprop="openingHours" title="Open Tuesday at 9am to 6pm">
+                        <td>Tuesday</td>
+                        <td class="opens">{{rest.hours[0].open[1].start[:2] + ":" + rest.hours[0].open[1].start[2:]}}</td>
+                        <td>-</td>
+                        <td class="closes">{{rest.hours[0].open[1].end[:2] + ":" + rest.hours[0].open[1].end[2:]}}</td>
+                    </tr>
+                    <tr id="Wednesday" itemprop="openingHours" title="Open Wednesday at 9am to 6pm">
+                        <td>Wednesday</td>
+                        <td class="opens">{{rest.hours[0].open[2].start[:2] + ":" + rest.hours[0].open[2].start[2:]}}</td>
+                        <td>-</td>
+                        <td class="closes">{{rest.hours[0].open[2].end[:2] + ":" + rest.hours[0].open[2].end[2:]}}</td>
+                    </tr>
+                    <tr id="Thursday" itemprop="openingHours" title="Open Thursday at 9am to 8pm">
+                        <td>Thursday</td>
+                        <td class="opens">{{rest.hours[0].open[3].start[:2] + ":" + rest.hours[0].open[3].start[2:]}}</td>
+                        <td>-</td>
+                        <td class="closes">{{rest.hours[0].open[3].end[:2] + ":" + rest.hours[0].open[3].end[2:]}}</td>
+                    </tr>
+                    <tr id="Friday" itemprop="openingHours" title="Open Friday at 9am to 6pm">
+                        <td>Friday</td>
+                        <td class="opens">{{rest.hours[0].open[4].start[:2] + ":" + rest.hours[0].open[4].start[2:]}}</td>
+                        <td>-</td>
+                        <td class="closes">{{rest.hours[0].open[4].end[:2] + ":" + rest.hours[0].open[4].end[2:]}}</td>
+                    </tr>
+                    {% if rest.get("hours")[0].open|length == 6 %}
+                    <tr id="Saturday" itemprop="openingHours" title="Open Saturday at 10am to 6pm">
+                        <td>Saturday</td>
+                        <td class="opens">{{rest.hours[0].open[5].start[:2] + ":" + rest.hours[0].open[5].start[2:]}}</td>
+                        <td>-</td>
+                        <td class="closes">{{rest.hours[0].open[5].end[:2] + ":" + rest.hours[0].open[5].end[2:]}}</td>
+                    </tr>
+                    {% endif %}
+                    <tr id="Sunday" itemprop="openingHours" title="Open Sunday at 11am to 4pm">
+                        <td>Sunday</td>
+                        <td class="opens">{{rest.hours[0].open[6].start[:2] + ":" + rest.hours[0].open[6].start[2:]}}</td>
+                        <td>-</td>
+                        <td class="closes">{{rest.hours[0].open[6].end[:2] + ":" + rest.hours[0].open[6].end[2:]}}</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+     <!--No info about the opening hrs in Yelp API-->
+    {% else %} 
+    <div class="col-md-5">
+        <section class="openinghours">
+            <div class="header">
+                <h2>Opening hours</h2>
+           </div>
+        </section>
+       <p>No info...</p>
+    </div>
+    </div>
+    {% endif %}
+   
+</div> 
 
     {% if "user_id" in session%}
     <div class = "fav-div">
@@ -139,6 +211,10 @@
         {%endif%}
     </div>
 
+    <div class="recommend-rests">  
+        You Might Also Consider
+    
+    </div>
 
 
 {% endblock %}

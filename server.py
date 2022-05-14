@@ -17,6 +17,9 @@ CLOUD_NAME = "djyfl2zja"
 @app.route("/")
 def homepage():
     """View homepage."""
+    # if user is not logged in, sign-in and sign-up button will be shown
+    # otherwise, hamburger icon is shown by clicking which user profile page and favorite 
+    # restaurants page can be accessed
 
     return render_template("homepage.html")
 
@@ -31,22 +34,27 @@ def sign_in():
 def process_login():
     """Process user login and show 20 restaurants"""
 
+    
+    # Grabbing entered in email and password
     email = request.form.get("email")
     password = request.form.get("password")
 
+    # find user with the entered email in the database 
     user = crud.get_account_by_email(email)
 
+    #if user doesn't exist or if password is not correct
     if not user or user.password != password:
         flash("Unable to login with this email address and password. Check your login information and try again.")
         return redirect("/sign_in")
     else:
-        # Log in user by storing the user's email and id in session
+        # Log in user by storing the user's info in session
         session["user_email"] = user.email
         session["user_id"] = user.account_id
         session["fname"] = user.fname
         session["lname"] = user.lname
         flash(f"Welcome back, {user.fname} {user.lname}!")
         
+        # Default query string to YELP API
         parameters = {
             "term" : "restaurants",
             "radius": "5000",
@@ -54,6 +62,7 @@ def process_login():
             "location": "28226"
         }
 
+        # 20 rests' info 
         restaurants = yelp_api_get(None, "businesses/search", parameters).json()
         return render_template("all-rests.html", restaurants = restaurants)
 
@@ -138,12 +147,13 @@ def show_restaurant_details(yelp_id):
     rest = yelp_api_get(yelp_id, "businesses", None).json()
    
     ratings = crud.get_rating_by_yelp_id(yelp_id)
-
-    user = crud.get_account_by_id(session["user_id"])
-    fav_rest = crud.get_restaurant_by_yelp_id(yelp_id)
     favorited = False
-    if fav_rest in user.fav_rests:
-        favorited = True
+    if (session.get("user_id")):
+        user = crud.get_account_by_id(session.get("user_id"))
+        fav_rest = crud.get_restaurant_by_yelp_id(yelp_id)
+   
+        if fav_rest in user.fav_rests:
+            favorited = True
 
 
     return render_template("rest-details.html", rest = rest, ratings=ratings, yelp_id=yelp_id, favorited=favorited)

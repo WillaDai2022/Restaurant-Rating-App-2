@@ -46,7 +46,7 @@
 }
 
 .home-box{
-  background-image: url("/static/image/homeBackground.jpg");
+  background-image: url("/static/image/backgrounds/homeBackground.jpg");
   background-size: auto;
   padding-top: 1px;
   padding-bottom: 1px;
@@ -113,11 +113,6 @@ a{
   margin-top: 20px;
 }
 
-.background-box-login{
-  background-image: url("/static/image/homeBackground.jpg");
-  margin-bottom: 1px;
-}
-
 .flash-msg{
   color:rgb(255, 60, 0);
 }
@@ -126,3 +121,14 @@ a{
   color:red;
 }
 
+.user-photo{
+  position:relative;
+  width:200px;
+  height:200px;
+  overflow:hidden;
+  border-radius:50%;
+}
+
+.openinghours{
+  margin-top: 35px;
+}
