@@ -13,9 +13,9 @@ Wei(Willa) Dai is a software engineer in Charlotte, NC. Find her on [LinkedIn](h
 
 ## <a name="tech-stack"></a>Tech Stack 🖥
 
-**Backend**:  Flask, PostgreSQL, Python, SQLAlchemy <br/>
-**Frontend**:  AJAX, Bootstrap, CSS, HTML, Jinja2, JavaScript, jQuery <br/>
-**APIs**:  Cloudinary, Google Maps JavaScript,Yelp, Toastify JS
+**Backend**:  Python, Flask, PostgreSQL, SQLAlchemy <br/>
+**Frontend**:  Jinja2, AJAX, Bootstrap, CSS, HTML, JavaScript, jQuery <br/>
+**APIs**:  Cloudinary, Google Maps JavaScript, Yelp, Toastify JS
 
 ## <a name="features"></a>Features 🔎
 Homepage and restaurant details page before user login in. No favorite button shown and no review can be left. Sign in and sign up button is shown.
@@ -32,19 +32,19 @@ Search for restaurants by zipcode.
 
 View a restaurant details and favourite a restaurant
 
-![View Restaurant Details](/static/img/gifs/view-details.gif)
+![View Restaurant Details](/static/image/gifs/view-details.gif)
 
 Write a review for a restaurant.
 
-![Write restaurant Review](/static/img/gifs/write-review.gif)
+![Write restaurant Review](/static/image/gifs/write-review.gif)
 
 User profile page and upload your own profile picture.
 
-![Upload Profile Picture](/static/img/gifs/user-profile-page.gif)
+![Upload Profile Picture](/static/image/gifs/user-profile-page.gif)
 
 View your favorited restaurants.
 
-![View User Content](/static/img/gifs/view-favs-rests.gif)
+![View User Content](/static/image/gifs/view-favs-rests.gif)
 
 
 ## <a name="installation"></a>Set Up 🛠
