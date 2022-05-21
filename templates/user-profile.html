@@ -3,16 +3,17 @@
 {% block title%}User Profile | RestaurantGuide{% endblock%}
 
 {% block before%}
-
+    <!--Show user name-->
     <h1>{{session["fname"]}} {{session["lname"]}}</h1>
+    <!--User phone number and email address-->
     <div class = "User-info">
         <div class="user-phone">{{user.phone}}</div>
         <divc class="user-email">{{user.email}}</div>
     </div>
-
+    <!--Default user photo-->
       <img class="user-photo" src="{{user.photo}}" alt="user_photo" width="200">
   
-  
+    <!--User can upload photo-->
     <form action="/user_photo_upload/{{user_id}}" method="post" enctype="multipart/form-data">
         <input type="file" name="my-file">
         <input type="submit">

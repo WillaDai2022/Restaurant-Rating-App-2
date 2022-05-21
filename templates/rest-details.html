@@ -7,6 +7,7 @@
 
     <div id="rest-info" class="row">
         <div class="col-md-7">
+            <!--Show city where the restaurant is located-->
             <H1 class="rest-location review-name">Restaurants in {{rest.location.city}}</H1>
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
@@ -127,6 +128,7 @@
         {% endif %}
     </div> 
 
+    <!--Favorite functionality-->
     {% if "user_id" in session%}
     <div class = "fav-div">
         <button id = "fav-rest" data-name="{{rest.name}}" data-address1="{{rest.location.display_address[0]}}" 
@@ -142,6 +144,7 @@
 
     <div id="map" data-lat={{rest.coordinates.latitude}} data-lng={{rest.coordinates.longitude}}></div>
 
+    <!--Recommended restaurant-->
     <h5 class="review-box"> You Might Also Consider</h5>
     <div class="row" id="recommend-rests" data-location="{{rest.location.zip_code}}"></div>
 
@@ -152,6 +155,7 @@
             </div>
         </div>
         <div class="col-md-6">
+            <!--User can leave review if they login in-->
             {% if "user_id" in session%}
             <a href="/review_page/{{yelp_id}}" class="btn btn-danger to-the-right">Leave a review</a>
             {%else%}
@@ -167,7 +171,7 @@
     </div>
     
 
-
+    <!--Restaurant reviews-->
     <div id="rest-reviews">
         {%if ratings %}
             {%for rating in ratings%}
@@ -223,7 +227,7 @@
                     <div>{{rating.review}}</div>
                 </div>
             {% endfor %}
-                
+        <!--No review is written-->
         {% else %}
             <div>No review yet</div>
         {%endif%}

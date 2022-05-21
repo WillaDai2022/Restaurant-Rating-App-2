@@ -85,7 +85,7 @@ def process_sign_up():
     phone = request.form.get("phone")
 
     #regex 
-    regex= r"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$"
+    regex= r"(1[- ])?\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}"
 
     user1 = crud.get_account_by_email(email)
     user2 = crud.get_account_by_phone(phone)
@@ -98,6 +98,8 @@ def process_sign_up():
         flash("Email is required")
     elif not phone:
         flash("Phone number is required")
+    elif not password:
+        flash("Password is required")
     elif user1:
         flash("An account is already associated with this email. Sign in to get started.")
     elif user2:

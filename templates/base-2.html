@@ -22,11 +22,12 @@
 
 <body>
 
+  <!--Navbar-->
   <nav class="navbar navbar-light bg-light fixed-top" style="position: sticky;">
     <div class="container-fluid">
 
       <a class="navbar-brand" href="/">Restaurant<span class="greenGuide">Guide</span></a>
-
+      <!--Show hamberger icon if user is logged in-->
       {% if "user_id" in session %}
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
         aria-controls="offcanvasNavbar">
@@ -78,7 +79,7 @@
         </div>
       </div>
 
-
+      <!--Show sign in and sign up button if user is not logged in-->
       {% else %}
       <div class="sign-in-up">
         <a class="btn" href="/sign_in">Sign In</a>

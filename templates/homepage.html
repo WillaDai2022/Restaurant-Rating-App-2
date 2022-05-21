@@ -3,6 +3,7 @@
 
 {%block pic%} 
 
+<!--Show search box in the homepage-->
 <div div class="container-fluid home-box"> 
   <div class="find-box">
     <div class="find-text">Find it, try it and review it</div>
@@ -10,6 +11,7 @@
       <input type="text" name="location" placeholder="Where to?">
       <input type="submit" value="Find Food">
     </form>  
+    <!--Show link to the sign in page if user is not logged in-->
     {% if "user_id" not in session %}
     <a class="rest-box" href="/sign_in">Sign in to see more..</a>
     {%endif%}

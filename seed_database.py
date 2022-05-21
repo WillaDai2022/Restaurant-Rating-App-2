@@ -5,7 +5,6 @@ import json
 import crud
 import model
 import server
-from random import choice
 
 os.system("dropdb restaurant_guide")
 os.system("createdb restaurant_guide")

@@ -14,8 +14,8 @@ Wei(Willa) Dai is a software engineer in Charlotte, NC. Find her on [LinkedIn](h
 ## <a name="tech-stack"></a>Tech Stack 🖥
 
 **Backend**:  Python, Flask, PostgreSQL, SQLAlchemy <br/>
-**Frontend**:  Jinja2, AJAX, Bootstrap, CSS, HTML, JavaScript, jQuery <br/>
-**APIs**:  Cloudinary, Google Maps JavaScript, Yelp, Toastify JS
+**Frontend**:  Jinja2, AJAX, Bootstrap, CSS, HTML, JavaScript, jQuery, Toastify JS<br/>
+**APIs**:  Cloudinary, Google Maps JavaScript, Yelp
 
 ## <a name="features"></a>Features 🔎
 Homepage and restaurant details page before user login in. No favorite button shown and no review can be left. Sign in and sign up button is shown.
